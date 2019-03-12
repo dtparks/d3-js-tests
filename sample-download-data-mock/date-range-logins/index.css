@@ -1,0 +1,31 @@
+html, body {
+
+}
+
+body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+
+.chart-title {
+    margin-top: 30px;
+    font-size: 40px;
+}
+
+.chart-container {
+}
+
+.uniques {
+    color: white;
+    background: #BBDA71;
+    padding: 5px;
+}
+
+.totals {
+    color: white;
+    background: #B55E95;
+    padding: 5px;
+}
