@@ -20,95 +20,81 @@ var dayCounter = 0;
 
 d3.json("sample-download-data.json", function(error, data) {
     console.log(data.downloadData);
+
+    function getDayName(dateStr) {
+        var date = new Date(dateStr);
+        return date.toLocaleDateString("en-US", { weekday: 'long' });        
+    }
+
     for(let i = 0; i < data.downloadData.length; i++) {
-        totalDownloadsAllRegions += data.downloadData[i].downloadsTotalNA 
+
+        var total = data.downloadData[i].downloadsTotalNA 
         + data.downloadData[i].downloadsTotalEMEA 
         + data.downloadData[i].downloadsTotalLATAM 
         + data.downloadData[i].downloadsTotalAPAC;
+        
+        totalDownloadsAllRegions += total;
 
-        if(dayCounter === 0) {
-            sunday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        } else if(dayCounter === 1) {
-            monday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        } else if(dayCounter === 2) {
-            tuesday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        } else if(dayCounter === 3) {
-            wednesday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        } else if(dayCounter === 4) {
-            thursday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        } else if(dayCounter === 5) {
-            friday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        } else if(dayCounter === 6) {
-            saturday += data.downloadData[i].downloadsTotalNA 
-                            + data.downloadData[i].downloadsTotalEMEA 
-                            + data.downloadData[i].downloadsTotalLATAM 
-                            + data.downloadData[i].downloadsTotalAPAC 
-        }
-        dayCounter++;
-        if(dayCounter === 7) {
-            dayCounter = 0;
+        var currentDay = getDayName(data.downloadData[i].date);
+        
+        if(currentDay === 'Sunday') {
+            sunday += total;
+        } else if(currentDay === 'Monday') {
+            monday += total;
+        } else if(currentDay === 'Tuesday') {
+            tuesday += total;
+        } else if(currentDay === 'Wednesday') {
+            wednesday += total;
+        } else if(currentDay === 'Thursday') {
+            thursday += total;
+        } else if(currentDay === 'Friday') {
+            friday += total;
+        } else if(currentDay === 'Saturday') {
+            saturday += total;
         }
     }
 
-    console.log(monday)
-    console.log(sunday)
-    console.log(totalDownloadsAllRegions)
+    var findPercentage = (day) => {
+        return (day / totalDownloadsAllRegions * 100).toFixed(2);
+    }
 
     dayData.push({
         "day" : "Sunday",
-        "percentage" : (sunday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(sunday),
     });
 
     dayData.push({
         "day" : "Monday",
-        "percentage" : (monday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(monday),
     });
 
     dayData.push({
         "day" : "Tuesday",
-        "percentage" : (tuesday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(tuesday),
     });
 
     dayData.push({
         "day" : "Wednesday",
-        "percentage" : (wednesday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(wednesday),
     });
 
     dayData.push({
         "day" : "Thursday",
-        "percentage" : (thursday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(thursday),
     });
 
     dayData.push({
         "day" : "Friday",
-        "percentage" : (friday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(friday),
     });
 
     dayData.push({
         "day" : "Saturday",
-        "percentage" : (saturday / totalDownloadsAllRegions * 100).toFixed(2),
+        "percentage" : findPercentage(saturday),
     });
 
 
-    var svgWidth = 700, svgHeight = 1000, radius =  Math.min(svgWidth, svgHeight) / 2;
+    var svgWidth = 800, svgHeight = 1000, radius =  Math.min(svgWidth, svgHeight) / 2;
     var svg = d3.select('svg')
         .attr("width", svgWidth)
         .attr("height", svgHeight);

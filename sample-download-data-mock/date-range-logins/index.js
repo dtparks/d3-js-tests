@@ -43,7 +43,7 @@ d3.json("sample-download-data.json", function(error, data) {
 });
 
 function drawChart(data) {
-    var svgWidth = 800, svgHeight = 700;
+    var svgWidth = 1600, svgHeight = 700;
     var margin = { top: 20, right: 20, bottom: 30, left: 50 };
     var width = svgWidth - margin.left - margin.right;
     var height = svgHeight - margin.top - margin.bottom;
